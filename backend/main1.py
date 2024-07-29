@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from backend.excel_to_db import subirOt
+from excel_to_db import subirOt
 
 app = FastAPI()
 
@@ -10,6 +10,7 @@ origins = [
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:8000",
 ]
 
 
@@ -21,12 +22,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+UPLOAD_DIR = "./files"
 
 @app.post('/uploadfile/')
 async def create_upload_file(file_upload: UploadFile):
     data = await file_upload.read()
-    UPLOAD_DIR = "./files"
-    save_to = UPLOAD_DIR + "/" + file_upload.filename
+    save_to = os.path.join(UPLOAD_DIR, file_upload.filename)
+    # Asegurarse de que el directorio de subida exista
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
     with open(save_to, 'wb') as f:
         f.write(data)
 
@@ -42,6 +45,8 @@ async def create_upload_file(file_upload: UploadFile):
                 subirOt(file_upload.filename)
             else:
                 print("El contenido del archivo no coincide con los datos escritos.")
+        read_from = UPLOAD_DIR +"/"+ file_upload.filename
+        os.remove(read_from)
     else:
         print("Error: El archivo no se pudo grabar.")
     

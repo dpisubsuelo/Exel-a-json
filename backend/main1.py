@@ -1,7 +1,8 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import os
-import excel_to_db
+from backend.excel_to_db import subirOt
+
 app = FastAPI()
 
 origins = [
@@ -38,7 +39,7 @@ async def create_upload_file(file_upload: UploadFile):
             if contenido == data:
                 print("El contenido del archivo es correcto.")
                 #Insertarlo en la base de datos
-                excel_to_db.subirOt(file_upload.filename)
+                subirOt(file_upload.filename)
             else:
                 print("El contenido del archivo no coincide con los datos escritos.")
     else:

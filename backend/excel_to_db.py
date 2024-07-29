@@ -1,6 +1,7 @@
 import pandas as pd
 from pymongo import MongoClient
 import os
+from procesos import subirOt
 
 root = "./files/" 
 def generarJSON(filename):
@@ -21,5 +22,5 @@ def subirOt(filename):
     read_from = root + filename
     os.remove(read_from)
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     subirOt()

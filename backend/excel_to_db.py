@@ -21,6 +21,3 @@ def subirOt(filename):
         print("Se insertaron correctamente los registros", diccionary)
     # read_from = root + filename
     # os.remove(read_from)
-
-if __name__ == "__main__":
-    subirOt("Control_de_Gastos.xlsx")
